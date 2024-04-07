@@ -1,0 +1,7 @@
+title: Example.com
+tagline: "Example!"
+description: ""
+url: https://example.com
+
+# plugins:
+  # - jekyll-pdf-thumbnail
