@@ -18,7 +18,8 @@ Gem::Specification.new do |gem|
     gem.add_development_dependency "debug", ">= 1.0.0"
 
     # Other stuff
-    gem.files       = ["lib/jekyll-pdf-thumbnail.rb"]
+    gem.files       = Dir["lib/**/*"]
+    gem.extra_rdoc_files = Dir["README.md", "LICENSE.txt"]
     gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
     gem.require_paths = ["lib"]
   end
