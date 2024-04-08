@@ -24,12 +24,6 @@ describe "JekyllPDFThumbnail" do
       let(:context)  { make_context(site: site) }
       let(:contents) { File.read(dest_dir("index.html")) }
 
-      # before(:each) do
-      #   allow(ENV).to receive(:[]).and_call_original
-      #   allow(ENV).to receive(:[]).with('JEKYLL_ENV').and_return('production')
-
-      # end
-
     context "pdf-thumbnail" do
         it "Created thumbnail images for the sample PDFS" do
           expect { site.process }.to_not raise_error
