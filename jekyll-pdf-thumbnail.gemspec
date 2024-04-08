@@ -1,25 +1,20 @@
-Gem::Specification.new do |gem|
-    gem.name        = "jekyll-pdf-thumbnail"
-    gem.version     = "0.1.0"
-    gem.summary     = "Generates PNG thumbnails of your PDFs"
-    gem.description = "This plugin generates thumbnails for each PDF in your site using the pdftoimage gem"
-    gem.authors     = ["Noe Niet"]
-    gem.email       = "nnieto@noenieto.com"
-    gem.homepage    =
-      "https://rubygems.org/gems/jekyll-pdf-thumbnail"
-    gem.license       = "MIT"
-    # Dependencies
-    gem.add_dependency 'pdftoimage', '~> 0.2.0'
-    gem.add_dependency 'jekyll', '~> 4.3', '< 5.0'
-
-    # Dev dependencies
-    gem.add_development_dependency "rake", "~> 12.3"
-    gem.add_development_dependency "rspec", "~> 3.8"
-    gem.add_development_dependency "debug", ">= 1.0.0"
-
-    # Other stuff
-    gem.files       = Dir["lib/**/*"]
-    gem.extra_rdoc_files = Dir["README.md", "LICENSE.txt"]
-    gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
-    gem.require_paths = ["lib"]
+Gem::Specification.new do |spec|
+    spec.name        = "jekyll-pdf-thumbnail"
+    spec.version     = "0.1.0"
+    spec.summary     = "Generates PNG thumbnails of your PDFs"
+    spec.description = "This plugin generates thumbnails for each PDF in your site using the pdftoimage gem"
+    spec.authors     = ["Noe Nieto"]
+    spec.email       = "nnieto@noenieto.com"
+    spec.homepage    = "https://rubygems.org/gems/jekyll-pdf-thumbnail"
+    spec.license     = "MIT"
+    spec.files       = Dir["lib/**/*"]
+    spec.extra_rdoc_files = Dir["README.md", "LICENSE.txt"]
+    spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
+    spec.require_paths = ["lib"]
+    spec.required_ruby_version = ">= 2.5.0"
+    spec.add_dependency 'pdftoimage', '~> 0.2.0'
+    spec.add_dependency 'jekyll', '>= 3.7', '< 5.0'
+    spec.add_development_dependency "rake", "~> 12.3"
+    spec.add_development_dependency "rspec", "~> 3.8"
+    # spec.add_development_dependency "debug", ">= 1.0.0"
   end

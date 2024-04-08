@@ -5,7 +5,7 @@ require "digest"
 
 
 module PDFThumbnail
-  CACHE_DIR = "/assets/.pdf_thumbnails/"
+  CACHE_DIR = "/assets/pdf_thumbnails/"
   HASH_LENGTH = 32
 
   def _dest_filename(src_path)
@@ -47,7 +47,7 @@ module PDFThumbnail
     def pdf_thumbnail(pdf)
       site = @context.registers[:site]
       full_pdf_path = File.join(site.source, pdf)
-      File.join(site.dest, CACHE_DIR, _dest_filename(full_pdf_path))
+      File.join(CACHE_DIR, _dest_filename(full_pdf_path))
     end
   end
 
