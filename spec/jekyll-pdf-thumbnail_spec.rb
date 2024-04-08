@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'debug'
+
 
 describe "JekyllPDFThumbnail" do
     let(:overrides) { Hash.new }

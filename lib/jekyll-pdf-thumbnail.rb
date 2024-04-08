@@ -1,6 +1,5 @@
 require 'pdftoimage'
 require 'jekyll'
-require 'debug'
 require "digest"
 
 
