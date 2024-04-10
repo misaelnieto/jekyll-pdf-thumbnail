@@ -8,7 +8,7 @@ RSpec.configure do |config|
 
   SOURCE_DIR = File.expand_path("../fixtures", __FILE__)
   DEST_DIR   = File.expand_path("../_site",  __FILE__)
-  PDF_CACHE_DIR = File.expand_path('../_site/assets/.pdf_thumbnails', __FILE__)
+  PDF_CACHE_DIR = File.expand_path('../_site/assets/pdf_thumbnails', __FILE__)
   FileUtils.rm_rf(DEST_DIR)
   FileUtils.mkdir_p(DEST_DIR)
 

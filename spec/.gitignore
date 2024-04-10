@@ -1,3 +1,4 @@
 .jekyll-cache
 _site
 fixtures/assets/.*
+fixtures/assets/pdf_thumbnails/

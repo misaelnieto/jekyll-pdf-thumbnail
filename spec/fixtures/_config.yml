@@ -3,5 +3,5 @@ tagline: "Example!"
 description: ""
 url: https://example.com
 
-# plugins:
-  # - jekyll-pdf-thumbnail
+plugins:
+  - jekyll-pdf-thumbnail
