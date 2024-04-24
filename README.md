@@ -53,7 +53,7 @@ A Jekyll plugin to generate thumbnails for your PDF files
   - Update [jekyll-pdf-thumbnail.gemspec](jekyll-pdf-thumbnail.gemspec) with new version and metadata.
   - Commit your changes.
   - Create a new git tag:  `git tag -a vx.y.z -m "Version x.y.z"`
-  - Push all the changes to github: ``git push origin && git push origin --tags`
+  - Push all the changes to github: `git push origin && git push origin --tags`
   - Build the Gem: ``gem build``
   - Upload the new gem: ``gem push jekyll-pdf-thumbnail-x.y.z.gem``
 
