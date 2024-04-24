@@ -7,10 +7,11 @@ Jekyll.logger.log_level = :error
 RSpec.configure do |config|
 
   SOURCE_DIR = File.expand_path("../fixtures", __FILE__)
-  DEST_DIR   = File.expand_path("../_site",  __FILE__)
-  PDF_CACHE_DIR = File.expand_path('../_site/assets/pdf_thumbnails', __FILE__)
+  DEST_DIR   = File.expand_path("_site",  SOURCE_DIR)
+  PDF_CACHE_DIR = File.expand_path('assets/pdf_thumbnails', SOURCE_DIR)
   FileUtils.rm_rf(DEST_DIR)
-  FileUtils.mkdir_p(DEST_DIR)
+  FileUtils.rm_rf(PDF_CACHE_DIR)
+  FileUtils.rm_rf(File.expand_path(".jekyll-cache",  SOURCE_DIR))
 
   def source_dir(*files)
     File.join(SOURCE_DIR, *files)

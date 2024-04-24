@@ -1,14 +1,26 @@
 require 'pdftoimage'
 require 'jekyll'
 require "digest"
-
+require 'debug'
 
 
 module PDFThumbnail
+
+
   CACHE_DIR = "/assets/pdf_thumbnails/"
   HASH_LENGTH = 32
+  @@cache_dir_present = false
 
-  def _dest_filename(src_path)
+  def _get_cache_dir(site)
+    full_cache_dir = File.join(site.source, CACHE_DIR)
+    if not @@cache_dir_present
+      FileUtils.mkdir_p(full_cache_dir)
+      @@cache_dir_present = true
+    end
+    full_cache_dir
+  end
+
+  def _dest_filename(src_path, resize, quality)
     # Generates a thumbnail name using the SHA256 digest of the PDF file
     #
     # Example:
@@ -17,9 +29,20 @@ module PDFThumbnail
     #
     # Arguments:
     #   src_path: (String)
+    #   resize: (String) as used in the -resize parameter of convert
+    #   quality: (String) as used in the -quality parameter of convert
     hash = Digest::SHA256.file(src_path)
     short_hash = hash.hexdigest()[0, HASH_LENGTH]
-    "#{short_hash}.png"
+    basename = short_hash
+    if resize
+      cleaned = resize.gsub(/[^\da-z]+/i, "")
+      basename << "_r#{cleaned}"
+    end
+    if quality
+      cleaned = quality.gsub(/[^\da-z]+/i, "")
+      basename << "_q#{cleaned}"
+    end
+    basename << ".png"
   end
 
   def _must_create?(src_path, dest_path)
@@ -27,35 +50,16 @@ module PDFThumbnail
     !File.exist?(dest_path) || File.mtime(dest_path) <= File.mtime(src_path)
   end
 
-
-  # The PDF thumbnail generator
-  class Generator < Jekyll::Generator
-    include PDFThumbnail
-    def generate(site)
-      # Ensure the cache dir exists
-      full_cache_path = File.join(site.source, CACHE_DIR)
-      FileUtils.mkdir_p(full_cache_path)
-
-      site.static_files.each do |static_file|
-        if static_file.extname.downcase == ".pdf"
-          full_pdf_path = File.join(site.source, static_file.relative_path)
-          thumb = _dest_filename(full_pdf_path)
-          full_thumb_path = File.join(full_cache_path, thumb)
-          rel_thumb_path = File.join(CACHE_DIR, thumb)
-          if _must_create?(full_pdf_path, full_thumb_path)
-            puts "Creating thumbnail of' #{static_file.relative_path}' to '#{rel_thumb_path}'"
-            PDFToImage.open(full_pdf_path).first.resize('50%').save(full_thumb_path)
-            site.static_files << Jekyll::StaticFile.new(site, site.source, CACHE_DIR, thumb)
-          end
-        end
-      end
-    end
+  def generate_thumbnail(pdf, thumbnail, resize='50%', quality="80%")
+    first = PDFToImage.open(pdf).first
+    first.args << "-thumbnail #{resize}"
+    first.save(thumbnail)
   end
 
   module Filters
     include PDFThumbnail
 
-    def pdf_thumbnail(pdf)
+    def pdf_thumbnail(pdf, args=nil)
       # Returns the thumbnail path for a given pdf file.
       # Example:
       #   >> pdf_thumbnail "/path/to/sample_1.pdf"
@@ -67,9 +71,28 @@ module PDFThumbnail
       #
       # Arguments:
       #   pdf: (String)
+      #   args: a dict that can contain "resize" and "quality"
+      if args == nil
+        args = {"resize"=> "50%", "quality": '80%'}
+      end
+      resize = args.fetch("resize", "50%")
+      quality = args.fetch("quality", "80%")
       site = @context.registers[:site]
+      full_cache_dir = _get_cache_dir(site)
       full_pdf_path = File.join(site.source, pdf)
-      File.join(CACHE_DIR, _dest_filename(full_pdf_path))
+      thumbnail = _dest_filename(full_pdf_path, resize, quality)
+      rel_thumb_path = File.join(CACHE_DIR, thumbnail)
+      full_thumb_path = File.join(_get_cache_dir(site), thumbnail)
+      if _must_create?(full_pdf_path, full_thumb_path)
+        puts "Creating thumbnail of' #{pdf}' to '#{rel_thumb_path}'"
+        generate_thumbnail(full_pdf_path, full_thumb_path, resize, quality)
+        # site - The Site. 
+        # base - The String path to the <source>. 
+        # dir - The String path between <source> and the file. 
+        # name - The String filename of the file.
+        site.static_files << Jekyll::StaticFile.new(site, site.source, CACHE_DIR, thumbnail)
+      end
+      rel_thumb_path
     end
   end
 

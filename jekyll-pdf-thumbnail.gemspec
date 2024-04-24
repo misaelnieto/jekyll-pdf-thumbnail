@@ -1,6 +1,6 @@
 Gem::Specification.new do |spec|
     spec.name        = "jekyll-pdf-thumbnail"
-    spec.version     = "0.1.0"
+    spec.version     = "0.2.0"
     spec.summary     = "Generates PNG thumbnails of your PDFs"
     spec.description = "This plugin generates thumbnails for each PDF in your site using the pdftoimage gem"
     spec.authors     = ["Noe Nieto"]

@@ -26,22 +26,29 @@ describe "JekyllPDFThumbnail" do
       let(:contents) { File.read(dest_dir("index.html")) }
     
     context "pdf-thumbnail-on-jekyll" do
-        it 'should register PDFThumbnail generator' do
-          (expect (site.generators.any? {|c| PDFThumbnail::Generator === c })).to be true
-        end
+        # it 'should register PDFThumbnail generator' do
+        #   (expect (site.generators.any? {|c| PDFThumbnail::Generator === c })).to be true
+        # end
         it "Created thumbnail images for the sample PDFS" do
           expect { site.process }.to_not raise_error
             expect(Pathname.new(dest_dir("assets/sample_1.pdf"))).to exist
             expect(Pathname.new(dest_dir("sample_2.pdf"))).to exist
-            expect(Pathname.new(pdf_cache_dir("a35383ccca791ba6aa67ab3acde65287.png"))).to exist
-            expect(Pathname.new(pdf_cache_dir("75583f81ab86102df192c2f54de50183.png"))).to exist
+            expect(Pathname.new(pdf_cache_dir("75583f81ab86102df192c2f54de50183_r50_q80.png"))).to exist
+            expect(Pathname.new(pdf_cache_dir("a35383ccca791ba6aa67ab3acde65287_r50_q80.png"))).to exist
+            expect(Pathname.new(pdf_cache_dir("a35383ccca791ba6aa67ab3acde65287_r25_q80.png"))).to exist
+            expect(Pathname.new(pdf_cache_dir("a35383ccca791ba6aa67ab3acde65287_r25_q50.png"))).to exist
+            expect(Pathname.new(pdf_cache_dir("a35383ccca791ba6aa67ab3acde65287_r12_q25.png"))).to exist
+
         end
 
         it 'generated the correct html markup' do
-          (expect contents).to include '<li>This is a link to <a href="http://example.org/assets/sample_1.pdf">/assets/sample_1.pdf</a></li>'
-          (expect contents).to include '<li>This is a preview of <img src="/assets/pdf_thumbnails/a35383ccca791ba6aa67ab3acde65287.png" alt="sample_1.pdf" /></li>'
-          (expect contents).to include '<li>This is a link to <a href="http://example.org/sample_2.pdf">sample_2.pdf</a></li>'
-          (expect contents).to include '<li>This is a preview of <img src="/assets/pdf_thumbnails/75583f81ab86102df192c2f54de50183.png" alt="sample_2.pdf" /></li>'
+          (expect contents).to include '<li>This is a link to <a href="/assets/sample_1.pdf">/assets/sample_1.pdf</a></li>'
+          (expect contents).to include '<li>This is a preview of <img src="/assets/pdf_thumbnails/a35383ccca791ba6aa67ab3acde65287_r50_q80.png" alt="sample_1.pdf" /></li>'
+          (expect contents).to include '<li>This is a link to <a href="sample_2.pdf">sample_2.pdf</a></li>'
+          (expect contents).to include '<li>This is a preview of <img src="/assets/pdf_thumbnails/75583f81ab86102df192c2f54de50183_r50_q80.png" alt="sample_2.pdf" /></li>'
+          (expect contents).to include '<li>25% resize: (/assets/pdf_thumbnails/a35383ccca791ba6aa67ab3acde65287_r25_q80.png)</li>'
+          (expect contents).to include '<li>25% resize, 50% quality: (/assets/pdf_thumbnails/a35383ccca791ba6aa67ab3acde65287_r25_q50.png)</li>'
+          (expect contents).to include '<li>12% resize, 25% quality: (/assets/pdf_thumbnails/a35383ccca791ba6aa67ab3acde65287_r12_q25.png)</li>'
         end
     end
 end
