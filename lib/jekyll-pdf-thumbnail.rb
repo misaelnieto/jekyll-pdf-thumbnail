@@ -1,7 +1,6 @@
 require 'pdftoimage'
 require 'jekyll'
 require "digest"
-require 'debug'
 
 
 module PDFThumbnail
@@ -86,9 +85,9 @@ module PDFThumbnail
       if _must_create?(full_pdf_path, full_thumb_path)
         puts "Creating thumbnail of' #{pdf}' to '#{rel_thumb_path}'"
         generate_thumbnail(full_pdf_path, full_thumb_path, resize, quality)
-        # site - The Site. 
-        # base - The String path to the <source>. 
-        # dir - The String path between <source> and the file. 
+        # site - The Site.
+        # base - The String path to the <source>.
+        # dir - The String path between <source> and the file.
         # name - The String filename of the file.
         site.static_files << Jekyll::StaticFile.new(site, site.source, CACHE_DIR, thumbnail)
       end

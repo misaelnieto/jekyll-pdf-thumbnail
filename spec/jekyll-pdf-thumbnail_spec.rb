@@ -1,6 +1,5 @@
 require 'spec_helper'
 require 'jekyll-pdf-thumbnail'
-require 'debug'
 
 describe "JekyllPDFThumbnail" do
     let(:overrides) { Hash.new }
@@ -24,7 +23,7 @@ describe "JekyllPDFThumbnail" do
       let(:site)     { Jekyll::Site.new(config) }
       let(:context)  { make_context(site: site) }
       let(:contents) { File.read(dest_dir("index.html")) }
-    
+
     context "pdf-thumbnail-on-jekyll" do
         # it 'should register PDFThumbnail generator' do
         #   (expect (site.generators.any? {|c| PDFThumbnail::Generator === c })).to be true

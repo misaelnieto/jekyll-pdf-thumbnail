@@ -45,8 +45,6 @@ A Jekyll plugin to generate thumbnails for your PDF files
 
 ## Developing this extension
 
-
-
 - **Setup**: Clone the extension and execute `bundle install` to install the dependencies
 - **Run tests**: ``bundle exec rspec``
 - **Releasing a new version**
@@ -56,4 +54,5 @@ A Jekyll plugin to generate thumbnails for your PDF files
   - Push all the changes to github: `git push origin && git push origin --tags`
   - Build the Gem: ``gem build``
   - Upload the new gem: ``gem push jekyll-pdf-thumbnail-x.y.z.gem``
+
 
